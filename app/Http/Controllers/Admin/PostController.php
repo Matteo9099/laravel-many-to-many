@@ -112,7 +112,8 @@ class PostController extends Controller
             [
                 'title' => 'required|min:5',
                 'content' => 'required|min:10',
-               'category_id' => 'nullable|exists:categories,id'
+                'category_id' => 'nullable|exists:categories,id',
+                'tags' => 'nullable|exists:tags,id'
             ]
             );
  
@@ -130,6 +131,8 @@ class PostController extends Controller
             $post->update($data);
             $post->save();
             
+            $post->tags()->sync($data['tags']);
+
             return redirect()->route('admin.posts.index');
     }
 
